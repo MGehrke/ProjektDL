@@ -1043,14 +1043,14 @@ like <- dbinom(y, size = n, prob = ppi)
 apost <- 1
 bpost <- 1
 # Dichtevektor für die Posterior-Verteilung erzeugeh
-dprior <- dbeta(ppi, shape1 = a, shape2 = b)
+dpost <- dbeta(ppi, shape1 = a, shape2 = b)
 
 ```
 :::
 ::: {.column width=50%}
 ```{webr-r}
 # alle drei in einem Grafen ausgeben
-# gf_line ...
+# gf_line(...)
 ```
 :::
 :::::
