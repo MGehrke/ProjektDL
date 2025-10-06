@@ -1021,7 +1021,8 @@ gf_line(dppi ~ ppi) |>
 Plotten Sie für das Kaffeebeispiel die Prior- und Posterior-Verteilung, sowie die Likelihood in einem Grafen, Farben orange, grün, lila.
 
 ::: footnote
-*Tipp:* Mit der Pipe `|>` können Sie mehrere Liniengrafiken übereinander legen.
+*Tipp:* Mit der Pipe `|>` können Sie mehrere Liniengrafiken übereinander legen. \
+*Hinweis:* Im Code müssen noch verschiedene Anpassungen vorgenommen werden.
 :::
 ::::: columns
 ::: {.column width=50%}
