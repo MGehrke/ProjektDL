@@ -75,10 +75,10 @@ Meine Wünsche für diese Veranstaltung :pray:
 - :video_camera: Schalten Sie Ihre Kamera ein.
 - :computer: Arbeiten Sie aktiv mit.
 - :raising_hand: Stellen Sie Fragen.
-- :muscle: <https://tweedback.de/2zdb/>
+- :muscle: <https://tweedback.de/2zdt/>
 
 ::: center
-{{< qrcode https://tweedback.de/2zdb/quiz width=400 height=400 >}}
+{{< qrcode https://tweedback.de/2zdt/quiz width=400 height=400 >}}
 :::
 
 ## Wie ist die Stimmung heute?
@@ -86,7 +86,7 @@ Meine Wünsche für diese Veranstaltung :pray:
 ::: center
 ![Quelle: [@pinterest](https://www.pinterest.de/pin/2744449766104840)](img/Icebreaker/MickeyMouse.jpg){width="50%"}
 :::
-<https://tweedback.de/2zdb/>
+<https://tweedback.de/2zdt/>
 
 # Skript Teil I/II: <br>Intro, Organisatorisches, Theorie {.unnumbered}
 
@@ -1065,10 +1065,10 @@ Meine Wünsche für diese Veranstaltung :pray:
 - :video_camera: Schalten Sie Ihre Kamera ein.
 - :computer: Arbeiten Sie aktiv mit.
 - :raising_hand: Stellen Sie Fragen.
-- :muscle: <https://tweedback.de/2us3/>
+- :muscle: <https://tweedback.de/2usa/>
 
 ::: center
-{{< qrcode https://tweedback.de/2us3/quiz width=400 height=400 >}}
+{{< qrcode https://tweedback.de/2usa/quiz width=400 height=400 >}}
 :::
 
 ## Wie ist die Stimmung heute?
@@ -1076,7 +1076,7 @@ Meine Wünsche für diese Veranstaltung :pray:
 ::: center
 ![Quelle: [Reddit](https://i.redd.it/acefwczsilz41.jpg)](img/Icebreaker/Halloween.jpg){width="50%"}
 :::
-<https://tweedback.de/2us3/>
+<https://tweedback.de/2usa/>
 
 
 # Wiederholung {.unnumbered}
