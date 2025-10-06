@@ -10,6 +10,33 @@ theme_set(
 )
 ```
 
+```{webr-r}
+#| context: setup
+# Autor: Karsten Lübke
+tweed2beta <- function(x = c(1,1,1,1,1)) {
+  # Tweedback-Ergebnis Schätzung Anteil Kaffeetrinker:innen in Parameter Beta Verteilung umrechnen
+  # Input:
+  # x[A:E]: Anzahl Antworten je Alternative A bis E
+  
+  # Geschätzte Anteile (Klassenmitte)
+  a <- c(10,30,50,70,90)/100
+  
+  mean_prior <- sum(x*a)/sum(x)
+  cat(paste0("Mittelwert: ", mean_prior,"\n"))
+  var_prior <- sum(x*(a-mean_prior)^2) / (sum(x)-1)
+  cat(paste0("Varianz: ", var_prior,"\n"))
+  
+  # Siehe https://stats.stackexchange.com/questions/12232/calculating-the-parameters-of-a-beta-distribution-using-the-mean-and-variance
+  alpha <- ((1-mean_prior) / var_prior - 1/mean_prior) * mean_prior^2
+  beta <- alpha*(1/mean_prior - 1)
+  
+  # Output:
+  # alpha, beta
+  return(c(alpha, beta))
+}
+```
+
+
 
 ## Inhaltsverzeichnis
 
@@ -416,6 +443,12 @@ muenzergebnis <- c(NA)
 muenzergebnis
 ```
 
+::: fragment
+<br>
+Das Ergebnis können Sie z. B. mit `length(...)` oder `mean(...)` überprüfen.
+Probieren Sie es aus, es sollten alle dasselbe Ergebnis bekommen.
+:::
+
 ## Tabelle und Säulendiagramm
 
 `tally()` und `gf_bar()` , beide aus dem Paket `mosaic`, erstellen eine Tabelle bzw. ein Säulendiagramm des Ergebnisses:
@@ -756,7 +789,7 @@ $$\overbrace{Pr{(\color{blue}{\pi}} | {\color{green}{y}})}^{\text{Posteriori}} \
 
 - **Priori-Verteilung** $Pr({\color{blue}{\pi}})$: Wahrscheinlichkeitsverteilung von $\color{blue}{\pi}$, *bevor* wir unsere Daten haben.
 - **Likelihood** $Pr({\color{green}{y}}|{\color{blue}{\pi}})$: *Mutmaßlichkeit* von $\color{green}{y}$ als Funktion von $\color{blue}{\pi}$.
-- **Posteriori-Verteilung** $Pr({\color{blue}{\pi}}|{\color{green}{y}})$: Wahrscheinlichkeitsverteilung von $\color{blue}{\pi}$ *nachdem* wir unsere Daten ${\color{green}{y}}$ haben.
+- **Posteriori-Verteilung** $Pr({\color{blue}{\pi}}|{\color{green}{y}})$: Wahrscheinlichkeitsverteilung von $\color{blue}{\pi}$, *nachdem* wir unsere Daten ${\color{green}{y}}$ haben.
 
 ::: callout-note
 ## Hinweis
@@ -789,8 +822,6 @@ $$f(\pi) \propto \pi^{\alpha-1} \cdot (1-\pi)^{\beta-1}, \text{ für } \pi \in [
 ## Beta-Verteilung in R
 
 ```{webr-r}
-# Paket mosaic aktivieren
-library(mosaic)
 # Vektor für pi unter dem Namen ppi bereitstellen
 ppi <- seq(from = 0, to = 1, by = 1/1000)
 # alpha und beta spezifizieren
@@ -802,6 +833,36 @@ dppi <- dbeta(ppi, shape1 = a, shape2 = b)
 gf_line(dppi ~ ppi) |>
   gf_labs(x = expression(pi), y = expression(f(pi)), title = paste0("Beta(", a, ", " , b, ")"))
 ```
+
+## Priori-Verteilung in R
+
+```{webr-r}
+# Aus dem Ergebnis der Umfrage alpha und beta ermitteln
+# Hinweis: eigene Funktion, mehr dazu später
+# Hier die Ergebnisse des Kurses eintragen, um Mittelwert, Varianz sowie Alpha und Beta zu erhalten: 
+tweed2beta(c(1,1,1,1,1))
+# alpha und beta spezifizieren
+a <- 1
+b <- 1
+# Dichtevektor
+dppi <- dbeta(ppi, shape1 = a, shape2 = b)
+# Visualisierung 
+gf_line(dppi ~ ppi) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), title = paste0("Beta(", a, ", " , b, ")"))
+```
+
+## Shiny App
+
+::: center
+<iframe src="https://fomshinyapps.shinyapps.io/BaBeBi/" title width="90%" height="750" style="border:none;">
+
+</iframe>
+
+::: footnote
+<https://fomshinyapps.shinyapps.io/BaBeBi/>
+:::
+:::
+
 
 ## Binomialverteilung (Wiederholung)
 
@@ -939,6 +1000,60 @@ Was passiert, wenn Sie mehr Beobachtungen $n$ erheben?
 - [**A**:]{.green} Die Streuung der Posteriori-Verteilung wird kleiner.
 - [**B**:]{.green} Die Streuung der Posteriori-Verteilung wird größer.
 - [**C**:]{.green} Die Streuung der Posteriori-Verteilung ändert sich nicht.
+
+## Posteriori-Verteilung in R
+
+```{webr-r}
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# alpha und beta spezifizieren
+a <- 1
+b <- 1
+# Dichtevektor
+dppi <- dbeta(ppi, shape1 = a, shape2 = b)
+# Visualisierung 
+gf_line(dppi ~ ppi) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), title = paste0("Beta(", a, ", " , b, ")"))
+```
+
+## Priori, Likelihood, Posteriori
+
+Plotten Sie für das Kaffeebeispiel die Prior- und Posterior-Verteilung, sowie die Likelihood in einem Grafen, Farben orange, grün, lila.
+
+::: footnote
+*Tipp:* Mit der Pipe `|>` können Sie mehrere Liniengrafiken übereinander legen.
+:::
+::::: columns
+::: {.column width=50%}
+```{webr-r}
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# alphaprior und betaprior festlegen
+aprior <- 1
+bprior <- 1
+# Dichtevektor für die Prior-Verteilung erzeugeh
+dprior <- dbeta(ppi, shape1 = a, shape2 = b)
+# n und y der Likelihood angeben
+n <- 8
+y <- 4
+# Likelihood erzeugen
+like <- dbinom(y, size = n, prob = ppi)
+# alphapost und betapost festlegen
+apost <- 1
+bpost <- 1
+# Dichtevektor für die Posterior-Verteilung erzeugeh
+dprior <- dbeta(ppi, shape1 = a, shape2 = b)
+
+```
+:::
+::: {.column width=50%}
+```{webr-r}
+# alle drei in einem Grafen ausgeben
+# gf_line ...
+```
+:::
+:::::
+
 
 # Skript Teil II/II: <br>Wiederholung, Seminararbeit {.unnumbered}
 
@@ -1095,8 +1210,6 @@ Und desto mehr *Power* hätte ein Hypothesentest. :muscle:
 #| fig-align: center
 #| out-width: 90%
 
-# Paket mosaic aktivieren
-library(mosaic)
 # Vektor für pi unter dem Namen ppi bereitstellen
 ppi <- seq(from = 0, to = 1, by = 1/1000)
 # alpha und beta spezifizieren
