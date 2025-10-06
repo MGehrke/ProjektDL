@@ -1,0 +1,1339 @@
+```{r}
+#| include: false
+library(mosaic)
+
+set.seed(1896)
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+```
+
+
+## Inhaltsverzeichnis
+
+<!-- Wichtig!!! Einmalige Vorbereitung: -->
+<!-- Wechseln Sie im Terminal ins Verzeichnis Folien. -->
+<!-- Dort nacheinander die folgenden Befehle ausführen: -->
+<!-- quarto install extension quarto-ext/fontawesome -->
+<!-- quarto install extension jmbuhr/quarto-qrcode -->
+<!-- quarto add coatless/quarto-webr  -->
+
+[**1**$\quad$Grundlagen Unsicherheit](#sec-grundlagen)
+
+[**2**$\quad$Organisatorisches](#sec-orga)
+
+[**3**$\quad$Binomialverteilung in R](#sec-binom)
+
+[**4**$\quad$Bayesianische Datenanalyse](#sec-bayes)
+
+[**5**$\quad$Aufbau Seminararbeit](#sec-arbeit)
+
+[**6**$\quad$Anhang](#sec-anhang)
+
+## Über mich :nerd_face:
+
+- Prof. Dr. phil. nat. Matthias Gehrke (m), seit 2006 freiberuflich und ab 2008 hauptberuflich an der FOM Frankfurt
+- 1993--2004 Gesellschafter-Geschäftsführer der CORTEX Biophysik GmbH, Leipzig
+- Schwerpunkte in der Lehre: Statistik und Rechnungswesen
+- Forschungsschwerpunkte: Finanzmarktökonometrie, Hochschuldidaktik für Statistik
+- :envelope:  [matthias.gehrke@fom.de](<mailto:matthias.gehrke@fom.de>)
+
+
+## Herzlich Willkommen :heart_eyes:
+
+Meine Wünsche für diese Veranstaltung :pray:
+
+- :video_camera: Schalten Sie Ihre Kamera ein.
+- :computer: Arbeiten Sie aktiv mit.
+- :raising_hand: Stellen Sie Fragen.
+- :muscle: <https://tweedback.de/2zdb/>
+
+::: center
+{{< qrcode https://tweedback.de/2zdb/quiz width=400 height=400 >}}
+:::
+
+## Wie ist die Stimmung heute?
+
+::: center
+![Quelle: [@pinterest](https://www.pinterest.de/pin/2744449766104840)](img/Icebreaker/MickeyMouse.jpg){width="50%"}
+:::
+<https://tweedback.de/2zdb/>
+
+# Skript Teil I/II: <br>Intro, Organisatorisches, Theorie {.unnumbered}
+
+# Grundlagen Unsicherheit {#sec-grundlagen}
+
+## Einführung
+
+::: incremental
+- Ich habe hier eine Münze, die ich gleich werfen werde: Wie hoch ist die Wahrscheinlichkeit für *Kopf*?
+- Nachdem ich sie geworfen habe: Wie hoch ist die Wahrscheinlichkeit für *Kopf* jetzt?
+- Ich habe drei verschiedene Münzen, eine normale mit zwei Seiten, eine *Kopf*, die andere *Zahl*. Ich habe aber auch eine mit zwei Seiten *Kopf* und eine mit zwei Seiten *Zahl*. :scream:
+:::
+
+## Erste Lernergebnisse :woman_teacher:
+
+- Es gibt zwei verschiedene Quellen der Unsicherheit: Zufall und Unwissenheit.
+- Bevor ich die Münze warf *Zufall*, nachdem ich die Münze warf Ihre *Unwissenheit*. :stuck_out_tongue_winking_eye:
+- Ihre erste Antwort (*50-50*) basierte auf Annahmen, z. B., dass ich eine faire Münze werfe. Diese können zutreffen, müssen es aber nicht. :pray:
+- Wahrscheinlichkeit als Maß für Unsicherheit ist subjektiv. :fearful:
+
+::: footnote
+Quelle: Spiegelhalter D. (2024). Why probability probably doesn't exist (but it is useful to act like it does). *Nature*, *636*(8043), 560–563. <https://doi.org/10.1038/d41586-024-04096-5>
+:::
+
+## Zwei Wahrscheinlichkeiten
+
+- **Aleatorische Wahrscheinlichkeit**: Gibt die langfristige relative Häufigkeit eines wiederholbaren Ereignisses an. Unter der Annahme, die Wahrscheinlichkeit für *Kopf* bei einem Münzwurf ist $\pi$, wie oft beobachte ich dann *Kopf* bei $n$ Würfen?
+- **Epistemische Wahrscheinlichkeit**: Gibt die relative Plausibilität eines Ereignisses an. Welchen Wert hat die Wahrscheinlichkeit für *Kopf*, $\pi$?
+
+::: footnote
+Selbst $\pi=0.5$ bei einer fairen Münze scheint nicht zu stimmen -- zumindest wenn man weiß, welche Seite beim Werfen oben war. Siehe Bartoš, F., Sarafoglou, A., Godmann, H. R., Sahrani, A., Leunk, D. K., Gui, P. Y., ... & Wagenmakers, E. J. (2023). Fair coins tend to land on the same side they started: Evidence from 350,757 flips. *arXiv:2310.04153*. <https://doi.org/10.48550/arXiv.2310.04153>
+:::
+
+## Hinweis Wahrscheinlichkeiten
+
+Für Wahrscheinlichkeiten gilt:
+
+- Absolute Sicherheit, dass eine Aussage $H$ stimmt, bedeutet eine Wahrscheinlichkeit von 1: $Pr(H)=1$.
+- Absolute Sicherheit, dass eine Aussage $H$ nicht stimmt, bedeutet eine Wahrscheinlichkeit von 0: $Pr(H)=0$.
+- Es gilt $0 \leq Pr(H) \leq 1$ und $Pr(H) + Pr(\text{nicht }H)=1$.
+
+::: footnote
+$Pr(\cdot)$ vom englischen *Pr*obability.
+:::
+
+## Eine Übersicht
+
+![](img/Grafiken/Schema_D2.png){height="800px" fig-align="center"}
+
+# Organisatorisches {#sec-orga}
+
+## Workload
+
+- (Virtuelle) Präsenzstunden: 8 UE
+- Virtuelle Unterrichtseinheiten: 28 UE
+- Strukturiertes Eigenstudium: 58 ZStd
+- Student Consulting/Praxistransfer: 40 ZStd
+- Workload gesamt: **125 ZStd**
+- ECTS-Credit Punkte: 5
+
+::: callout-note
+## Hinweis
+
+Die virtuellen Unterrichtseinheiten (Academic Mentoring) erfolgen über Sprechstunden (Zoom, Email, Telefon) sowie Materialien in Moodle.
+:::
+
+## Academic Mentoring
+
+Um Ihr Lernen zu unterstützen sind im Moodle-Kurs hinterlegt:
+
+- dieser Foliensatz
+- ergänzende Videos
+- ergänzende Quizze
+- Literatur
+- weitere Unterlagen und Übersichten
+
+::: callout-tip
+## Tipp
+
+Nutzen Sie die eingestellten Unterlagen. Diese sind -- anders als die Ausgaben von Sprachmodellen -- genau auf diesen Kurs abgestimmt.
+:::
+
+## Modulziel
+
+In diesem Modul werden die im Modul Quantitative Datenanalyse erlernten Methoden in einer eigenständigen quantitativen Datenanalyse umgesetzt. Die Studierenden können nach erfolgreichem Abschluss des Moduls eine quantitative Datenanalyse entlang des PPDAC durchführen, also
+
+- ein zu analysierendes **P**roblem definieren (Forschungsfrage),
+- die **P**lanung der Analyse erstellen,
+- die benötigten **D**aten ggf. erheben (oder Sekundärdaten verwenden), managen und bereinigen,
+- die nötigen **A**nalysen softwaregestützt durchführen und
+- die entsprechenden Schlussfolgerungen (**C**onclusion) ziehen.
+
+## Prüfung und Benotung
+
+- große Seminararbeit
+- ca. 8 Wochen Bearbeitungszeit
+- 100% der Modulnote
+- Theorie-Praxis-Transfer: Das gewählte Thema wird auf die Praxis bezogen und in einem eigenen Gliederungspunkt dargestellt (ca. 25% des Seminararbeitsumfangs).
+
+Die Seminararbeit umfasst im vorliegenden Modul die Durchführung und entsprechende Dokumentation einer Datenanalyse. Die Datenanalyse muss transparent und reproduzierbar sein. Dazu sind die Daten und die Analysen (R Skripte, Quarto-Dokument) entsprechend mit einzureichen.
+
+::: callout-important
+## Wichtig
+
+Die Seminararbeit wird transparent und reproduzierbar in einem [Quarto](https://quarto.org/)-Dokument mit [R](https://www.r-project.org/) in [RStudio](https://posit.co/products/open-source/rstudio/) erstellt.
+:::
+
+## Ihre Aufgabe :mortar_board:
+
+<br>
+
+::: box
+Führen Sie eine bayesianische Datenanalyse zu einer Fragestellung durch, die mit Hilfe eines Anteilswert beantwortet wird.
+:::
+
+<br>
+
+::: callout-note
+## Hinweis
+
+Anteilswerte sind z. B. relative Häufigkeiten einer Ausprägung einer kategorialen Variable.
+:::
+
+## Fragestellungen
+
+- Zwei Alternativen:
+
+    1.  Fragestellung aus Ihrer beruflichen Praxis
+
+    2.  Nachhaltiges Handeln
+
+::: callout-note
+## Hinweis
+
+Sie müssen die Wahl Ihrer individuellen Fragestellung in der Arbeit begründen.
+
+In diesem Abschnitt kann Literatur helfen.
+:::
+
+## Fragestellung aus beruflicher Praxis
+
+Die Datenerhebung zur Beantwortung Ihrer Fragestellung kann mittels Beobachtung, (Kurz-)Umfrage oder durch unternehmensinterne Daten erfolgen.
+
+::: callout-important
+## Wichtig
+
+Stellen Sie auf jeden Fall vorab sicher, dass Sie die Daten nutzen oder erheben dürfen.
+:::
+
+## Fragestellung nachhaltiges Handeln
+
+- Überlegen Sie sich eine Fragestellung zum Thema nachhaltiges Handeln.
+- Die Datenerhebung zur Beantwortung Ihrer Fragestellung kann mittels Beobachtung oder (Kurz-)Umfrage erfolgen.
+
+## Suchen Sie ein Thema, was SIE interessiert -- und niemandem schadet!
+
+::: center
+![](img/Grafiken/Meme_Seminar.jpg){width="60%"}
+:::
+
+::: footnote
+Wissenschaft darf auch Spaß machen - praktisch ist sie sowieso. :wink:
+:::
+
+## Ihre Fristen :student:
+
+- 01.11.2025: Anmeldefenster Seminararbeit öffnet (s. Studienbuch).
+- 15.12.2025: Anmeldefrist Seminararbeit läuft ab.
+- 15.02.2026: Abgabefrist Seminararbeit.
+
+::: callout-warning
+## Warnung
+
+Die Fristen für die Anmeldung sowie die Abgabe können [nicht]{.red} verlängert werden.
+:::
+
+## Formalien
+
+- Gruppengrößen bis zu drei Personen sind möglich. Die individuellen Beiträge **müssen** kenntlich gemacht werden. Die Aufgabenstellung und Gliederung sind für alle Gruppengrößen gleich. Mit steigender Gruppengröße steigt der Umfang der Seminararbeit und die methodischen Mindestanforderungen in der Analyse.
+- Es gibt eine Vorlagedatei für die Seminararbeit (`Vorlage_Seminararbeit.qmd`). Diese ist auch in dem [Posit Cloud](https://posit.cloud/) Projekt verfügbar und sollte verwendet werden.
+- Die Gliederung orientiert sich am [PPDAC Prozess](https://new.censusatschool.org.nz/wp-content/uploads/2021/12/data-detective-2021.pdf).
+- Titel der Arbeit: *Bayesianische Datenanalyse*
+- Abzugeben ist das PDF nach `Render PDF`, sowei die Quarto-Datei `(qmd)` und ggf. die Daten als Zip-Anhang.
+
+::: callout-warning
+## Warnung
+
+Das Nichteinhalten der formalen Rahmenbedingungen kann zur Folge haben, dass die Seminararbeit als nicht ausreichend bewertet wird.
+:::
+
+## Bewertungskriterien :woman_teacher:
+
+- inhaltliche Korrektheit in Motivation, Argumentation und Interpretation
+- methodische Angemessenheit und Umsetzung, siehe auch @sec-arbeit
+- fachwissenschaftliche Ausdrucksweise
+- Anspruch, Eigenständigkeit und Originalität
+
+::: callout-note
+## Hinweis
+
+Die Gesamtnote muss nicht aus dem arithmetischen Mittel der Einzelnoten gebildet werden. Auch Defizite in einzelnen Kriterien können zu einer nicht mehr ausreichenden Gesamtbewertung führen.
+:::
+
+## Primärquelle
+
+::::: columns
+::: {.column width="50%"}
+![](img/Grafiken/Bayesrules.jpeg){height="800px" fig-align="center"}
+:::
+
+::: {.column width="50%"}
+- Kapitel 1-3, 8.1, 8.3
+- Verfügbar unter: <https://www.bayesrulesbook.com/>
+:::
+:::::
+
+## Literatur
+
+::::::: columns
+:::: {.column width="50%"}
+::: center
+![](img/Grafiken/DBDA.png){height="500px"}
+:::
+
+- Kapitel 1--6
+::::
+
+:::: {.column width="50%"}
+::: center
+![](img/Grafiken/Bayesstatistik.png){height="500px"}
+:::
+
+- Kapitel 1, 2, 5, 6, 7, 8, 10, 11
+- Verfügbar unter: <https://link.springer.com/book/10.1007/978-3-662-56782-1>
+::::
+:::::::
+
+## Anforderungen im Kontext wissenschaftlicher Arbeiten I / II 🎓
+
+🎯 **Zielsetzung**
+
+- eigenständige Auseinandersetzung mit einer klar definierten Fragestellung
+- nachvollziehbare Argumentation und fundierte Schlussfolgerungen
+
+✍️ **Wissenschaftlicher Schreibstil**
+
+- sachlich, präzise, klar, neutral\
+- keine Umgangssprache, Übertreibungen oder persönliche Wertungen\
+- Formulierungen in der ersten Person Singular oder Plural (Ich-, Wir-Form) sollten in (deutschsprachigen) wissenschaftlichen Texten möglichst vermieden werden\
+- Argumentationen durch Quellen belegen
+
+## Anforderungen im Kontext wissenschaftlicher Arbeiten II / II 🎓
+
+🗂 **Formale Kriterien**
+
+- einheitliches Layout (Schrift, Seitenränder etc.)\
+- korrekte Rechtschreibung und Grammatik\
+- eindeutig definierte Fachgegriffe (z. B. Signifikanzniveau, Hypothesen) korrekt verwenden\
+- Übereinstimmung von Literaturverzeichnis und zitierter Literatur
+
+🧾 **Literaturverzeichnis**
+
+- vollständige und konsistente Angaben
+- alphabetisch sortiert
+
+⚠️ **Plagiatsvermeidung**
+
+- Jede Quelle muss kenntlich gemacht werden!\
+- Auch bei Paraphrasen: Quellenangabe nicht vergessen!
+
+## Sprachmodelle
+
+- Sie dürfen Sprachmodelle für die Hausarbeit nutzen.
+- Sie müssen die Nutzung in der Arbeit kennzeichnen.
+- Sie sollten die Ausgaben kritisch hinterfragen. :woman_teacher:
+
+::: callout-tip
+Kurs *MODERN-DAY ORACLES or BULLSHIT MACHINES? How to thrive in a ChatGPT world* von Carl T. Bergstrom von Jevin D. West (2025): <https://thebullshitmachines.com/>
+:::
+
+# Binomialverteilung in {{< fa brands r-project >}} {#sec-binom}
+
+## Münzwurf :muscle:
+
+Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$: Welche Anzahl Kopf $y$ ist wahrscheinlicher?
+
+- [**A**]{.green}: $4\times$ Kopf.
+- [**B**]{.green}: $8\times$ Kopf.
+- [**C**]{.green}: $4\times$ Kopf und $8\times$ Kopf sind gleich wahrscheinlich.
+- [**D**]{.green}: Keine Aussage möglich.
+
+## Wahrscheinlichkeit :muscle:
+
+Um was für eine Wahrscheinlichkeit handelt es sich bei der Anzahl Kopf $y=4$ bzw. $y=8$ beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$?
+
+- [**A**]{.green}: Aleatorische Wahrscheinlichkeit.
+- [**B**]{.green}: Epistemische Wahrscheinlichkeit.
+- [**C**]{.green}: Sowohl aleatorische als auch epistemische Wahrscheinlichkeit.
+- [**D**]{.green}: Weder aleatorische noch epistemische Wahrscheinlichkeit.
+
+## Münzwurf <i class="fa-solid fa-coins"></i> 
+
+- Nehmen Sie eine faire Münze und werfen Sie diese acht Mal. Notieren Sie die Anzahl Kopf (Wappen).
+- Tragen Sie Ihr Ergebnis bitte hier ein: <https://survey.fom.de/muenzwurf-vorlesung/>.
+
+::: center
+{{< qrcode https://survey.fom.de/muenzwurf-vorlesung/ width=400 height=400 >}}
+:::
+
+- Geben Sie dabei den [**Namen Ihrer Lehrperson**]{.green} und das [**heutige Datum**]{.green} an, damit wir unser Kursergebnis verwenden können. Achten Sie auf die richtige Schreibweise des Namens. 
+
+
+## Hinweis Münzwurf :woman_teacher:
+
+- Der Münzwurf ist hier ein Stellvertreter für viele relevante Fragestellungen in Wissenschaft und Praxis, z. B.:
+  - Mit welcher Wahrscheinlichkeit wirkt ein Medikament?
+  - Mit welcher Wahrscheinlichkeit wird ein Produkt gekauft?
+  - Mit welcher Wahrscheinlichkeit ist eine Antwort auf eine Klausurfrage richtig?
+- Grundlage sind unabhängige Versuche mit den Ausprägungen *Erfolg* bzw. *Misserfolg*.
+- Ihre Aufgabenstellung ist es, eine vergleichbare Fragestellung mit einer dichotomen bzw. binären Variable zu beantworten. Auch wenn der Münzwurf als solcher Sie vielleicht nicht so sehr interessiert, so lohnt es sich doch, sich ihn einmal anzuschauen. :mortar_board:
+
+## {{< fa brands r-project >}} & Friends
+
+- [R](https://www.r-project.org/) ist eine freie Programmiersprache für statistische Datenanalysen.
+- [RStudio](https://posit.co/products/open-source/rstudio/) ist eine Entwickungsumgebung für R.
+- [`mosaic`](https://cran.r-project.org/package=mosaic) ist ein Zusatzpaket für R. Dies muss einmalig vorab über `install.packages("mosaic")`installiert werden.
+- [Quarto](https://quarto.org/) ist ein Publikationssystem, dass Text, Code und Ausgaben reproduzierbar kombiniert.
+
+::: callout-tip
+## Tipp
+
+Sie können die nötigen Programme lokal installieren oder den Cloud-Dienst <https://posit.cloud/> nutzen.
+:::
+
+## Hinweise Programmierung in R
+
+- {{< fa brands r-project >}} unterscheidet zwischen Groß- und Kleinbuchstaben.
+- {{< fa brands r-project >}} verwendet den Punkt `.` als Dezimaltrennzeichen.
+- Fehlende Werte werden in {{< fa brands r-project >}} durch `NA` kodiert.
+- Eine Ergebniszuweisung erfolgt über `<-`.
+- Eine Übergabe / Weitergabe erfolgt über `|>`.
+- `#` leitet einen Kommentar ein.
+
+## Ergebnis Münzwurf <i class="fa-solid fa-coins"></i>
+
+Dem R-Objekt `muenzergebnis` wird unser Ergebnis als Vektor (`c()`) zugewiesen (`<-`):
+
+```{webr-r}
+# mosaic aktivieren
+library(mosaic)
+# Zuweisung
+muenzergebnis <- c(NA)
+# Ausgabe
+muenzergebnis
+```
+
+## Tabelle und Säulendiagramm
+
+`tally()` und `gf_bar()` , beide aus dem Paket `mosaic`, erstellen eine Tabelle bzw. ein Säulendiagramm des Ergebnisses:
+
+```{webr-r}
+# Tabelle
+tally( ~ muenzergebnis)
+# Säulendiagramm
+gf_bar( ~ muenzergebnis)
+```
+
+## Münzwurf -- Forts. :muscle:
+
+Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$. Welche Anzahl Kopf $y$ ist wahrscheinlicher?
+
+- [**A**]{.green}: $4\times$ Kopf.
+- [**B**]{.green}: $8\times$ Kopf.
+- [**C**]{.green}: $4\times$ Kopf und $8\times$ Kopf sind gleich wahrscheinlich.
+- [**D**]{.green}: Keine Aussage möglich.
+
+## Zweite Lernergebnisse :woman_teacher:
+
+- Auch bei festem Wert $\pi=0.5$ kommen aufgrund aleatorischer Unsicherheit unterschiedliche Ergebnisse für $y$ und $p=\frac{y}{n}$ heraus.
+- Der Wert der Statistik $p$ liegt häufig in der Nähe des Wertes des Parameters $\pi$. Kleinere Abweichungen sind dabei relativ häufig, größere relativ selten.
+- Wir können (und sollten!) Daten nutzen, um unsere Meinungen ggf. anzupassen. :pray:
+
+## Säulendiagramm verbessern
+
+R (über `ggformula` bzw. `ggplot2`) bietet sehr viele Möglichkeiten z. B. Beschriftungen etc. anzupassen:
+
+```{webr-r}
+# Säulendiagramm
+gf_bar( ~ muenzergebnis) |>
+  gf_labs(title = "Ergebnis 8-facher Münzwurf",
+          x = "Anzahl Kopf",
+          y = "Häufigkeit")
+```
+
+## Vekoren in R
+
+Funktionen (und Operationen) werden auf den ganzen Vekor angewendet:
+
+```{webr-r}
+# Anteil Kopf bei je 8 Versuchen
+muenzergebnis/8
+```
+
+## R als Taschenrechner
+
+Mit R kann wie mit einem Taschenrechner gerechnet werden:
+
+```{webr-r}
+2+2
+```
+
+Die Werte und Ergebnisse können auch zugewiesen werden, um damit weiter zu rechnen:
+
+```{webr-r}
+a <- 2
+b <- a + a
+b
+```
+
+## Zahlenfolge :muscle:
+
+`seq(from, to, by)` erzeugt einen Vektor einer Zahenfolge von `from` bis `to` mit einer Schrittweite von `by`.
+
+Erzeugen Sie eine Zahlenfolge von $0$ bis $1$ mit einer Schrittweite von $0.01$. Benennen Sie das Ergebnis `vektor_pi`.
+
+```{webr-r}
+
+```
+
+## Gesamtergebnis
+
+Für unsere Gruppe ergibt sich folgendes Gesamtergebnis:
+
+```{webr-r}
+# Anzahl Kopf insgesamt:
+y <- sum(muenzergebnis)
+y
+```
+
+```{webr-r}
+# Versuche insgesamt:
+n <- length(muenzergebnis) * 8
+n
+```
+
+## Modell Münzwurf
+
+- Die Zufallsvariable $Y$ misst die Anzahl der *Erfolge* bei einer festen Anzahl von $n$ Versuchen.
+- Die Versuche sind unabhängig voneinander.
+- Jeder Versuch hat die gleiche Erfolgswahrscheinlichkeit $\pi$.
+- Wir **nehmen an**, dass beim fairen Münzwurf $\pi=0.5$ ist.
+
+::: callout-important
+## Wichtig
+
+Wenn diese Voraussetzungen erfüllt sind, kann eine **Binomialverteilung** zur Modellierung des Ergebnisses verwendet werden.
+:::
+
+## Eine Übersicht (Wiederholung) :muscle:
+
+::::: {columns}
+::: {.column width="50%"}
+Auf welcher Ebene befindet sich unser konkretes Ergebnis $p=\frac{y}{n}$?
+
+- [**A**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmodells **P** (links oben).
+- [**B**]{.green}: Auf der Ebene der Daten **D** (links unten).
+- [**C**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmodells **P'** (rechts oben).
+- [**D**]{.green}: Auf der Ebene der Daten **D'** (rechts unten).
+:::
+
+::: {.column width="50%"}
+![](img/Grafiken/Schema_D2.png){height="600px" fig-align="center"}
+:::
+:::::
+
+## Binomialverteilung
+
+Wahrscheinlichkeitsfunktion $Y \sim Binom(n, \pi)$:
+
+$$f(y) = Pr(Y=y) = \binom{n}{y} \cdot \pi^y \cdot (1-\pi)^{n-y}, \text{ für } y \in \{0,1, \ldots, n\}$$
+
+- $n \in \{0,1,2,\ldots\}$ und $\pi \in [0,1]$ bestimmt die Form der Verteilung.
+- Erwartungswert (*Mittelwert* der Verteilung): $E(Y)=n \cdot \pi$
+- Varianz: $Var(Y)=n \cdot \pi \cdot (1-\pi)$
+- Die Likelihood-Funktion ist die Wahrscheinlichkeitsfunktion als Funktion von $\pi$ bei gegebenem $y$. Diese ist maximal an der Stelle $p=\frac{y}{n}$.
+- {{< fa brands r-project >}} Befehle für Dichte-, Verteilungs- und Quantilsfunktion: `dbinom(); pbinom(); qbinom()` mit den Argumenten `size` $= n$ und `prob` $= \pi$
+
+## Parameter Binomialverteilung
+
+::: center
+<iframe src="https://fomshinyapps.shinyapps.io/Binomialverteilung/" width="3500" height="450" style="border:true;">
+
+</iframe>
+:::
+
+- Je nach Wert des Parameters $\pi$ (und Anzahl Versuche $n$) variiert die Wahrscheinlichkeit für die Anzahl Erfolge $y$.
+
+::: footnote
+<https://fomshinyapps.shinyapps.io/Binomialverteilung/>
+:::
+
+## Dichte Biomialverteilung in R
+
+```{webr-r}
+# Vektor für y bereitstellen
+vektor_y <- seq(from = 0, to = n, by = 1)
+# Wahrscheinlichkeitsvektor
+vektor_dichte <- dbinom(vektor_y, size = n, prob = 0.5)
+# Visualisierung
+gf_col(vektor_dichte ~ vektor_y) |>
+  gf_labs(x = "y", y = expression(f(y)), title = paste0("Binom(", n, ", 0.5)"))
+```
+
+## Likelihood
+
+::::: {columns}
+::: {.column width="50%"}
+- Wir haben aufgrund theoretischer Überlegungen angenommen, dass $\pi=0.5$ ist.
+- In den meisten praktischen Fragestellungen kennen wir den Wert von $\pi$ im datengenerierendem Prozess nicht.
+- Je nachdem, welches $\pi$ dem datengenerierendem Prozess zugrunde liegt, desto *mutmaßlicher* (engl.: *likely*) ist eine Anzahl von Erfolgen $y$ bei $n$ Versuchen.
+:::
+
+::: {.column width="50%"}
+![](img/Grafiken/Meme-Yoda-p_vs_pi.jpg){height="600px" fig-align="center"}
+:::
+:::::
+
+## Likelihood in R
+
+```{webr-r}
+# Vektor für pi bereitstellen.
+vektor_pi <- seq(from = 0, to = 1, by = 1/1000)
+# Likelihood für unser Ergebnis bestimmen
+vektor_li <- dbinom(y, n, vektor_pi)
+# Visualisierung
+gf_line(vektor_li ~ vektor_pi) |>
+  gf_labs(x = expression(pi), y = "Likelihood")
+```
+
+## Maximum-Likelihood Punktschätzer
+
+- Der Maximum-Likelihood Punktschätzer für den Wert des Parameters ist der Wert der Statistik der Daten:
+
+$$
+\hat{\pi}_{MLE}=p=\frac{y}{n}
+$$
+
+```{webr-r}
+# pi_dach ist das Element von vektor_pi, dass dem Maximum der Likelihood entspricht
+pi_dach <- vektor_pi[which.max(vektor_li)]
+pi_dach
+```
+
+## Simulation Stichprobenergebnisse :muscle:
+
+Über den Befehl `rbinom()` können binomialverteilte Zufallszahlen simuliert werden:
+
+```{webr-r}
+# Anzahl Kopf
+sim_a <- rbinom(100, size = n, prob = 0.5)
+# Anteil Kopf
+sim_a/n
+```
+
+Variiert bei festem $\pi$ der Punktschätzer $\hat{\pi}_{MLE}$?
+
+- [**Ja**]{.green}
+- [**Nein**]{.green}
+
+# Bayesianische Datenanalyse {#sec-bayes}
+
+## Ihre Meinung :coffee:
+
+Was schätzen Sie: Wie groß ist der Anteil derjenigen, die morgens regelmäßig Kaffee trinken?
+
+- [**A**:]{.green} 0-20%
+- [**B**:]{.green} 21-40%
+- [**C**:]{.green} 41-60%
+- [**D**:]{.green} 61-80%
+- [**E**:]{.green} 81-100%
+
+## Ihre Sicherheit :coffee:
+
+Wie sicher sind Sie sich bei Ihrer Schätzung des Anteils der Kaffeetrinker:innen?
+
+- [**A**:]{.green} Sehr sicher.
+- [**B**:]{.green} Eher sicher.
+- [**C**:]{.green} Eher unsicher.
+- [**D**:]{.green} Sehr unsicher.
+
+## Ihre Daten :coffee:
+
+Trinken **Sie** morgens regelmäßig Kaffee?
+
+- [**Ja**]{.green}
+- [**Nein**]{.green}
+
+## :studio_microphone: Good Bayesian
+
+> One way to understand rational, scientific thinking is via “Bayesian reasoning” which estimates the statistical probability of something being true and then updates that probability as new evidence appears, approaching the truth without achieving absolute certainty.
+
+Quelle: <https://bababrinkman.bandcamp.com/track/good-bayesian-feat-mc-lars-and-mega-ran>
+
+## Bayes'sches Denken
+
+- Seien Sie offen für neue Erkenntnisse. Wissenschaftliche Erkenntnisse sind immer mit einer gewissen Unsicherheit verbunden, und Vorannahmen, die absolute Gewissheit (oder Unmöglichkeit) bedeuten, verhindern wissenschaftlichen Fortschritt. Dieser Grundsatz ist Ausdruck der Bayes'schen Erkenntnistheorie und verdeutlicht, dass wissenschaftliche Erkenntnisse vorläufig sind und dass Wissenschaftler:innen keine absoluten oder sicheren Aussagen aufstellen sollten.
+- Berücksichtigen Sie, was bereits bekannt ist. Bewerten Sie neue Erkenntnisse im Lichte früherer Informationen. Dies unterstreicht, dass wissenschaftliches Wissen nicht isoliert entsteht, sondern auf früheren Informationen und Erkenntnissen aufbaut.
+- Alternative Erklärungen in Betracht ziehen. Betrachten Sie die Erkenntnisse im Hinblick auf die Vereinbarkeit mit allen möglichen Ergebnissen; mit anderen Worten: Berücksichtigen Sie kontrafaktische Szenarien. Dies drückt aus, was in der Bayes'schen Philosophie als das einfache Prinzip der Konditionalisierung bezeichnet wird: Wenn wir Erkenntnisse abwägen, müssen wir berücksichtigen, inwieweit sie die Bandbreite möglicher Erklärungen für die Daten unterstützt.
+
+::: footnote
+Übersetzung aus: Rosenberg, J.M., Kubsch, M., Wagenmakers, E-J., Dogucu, M. Making Sense of Uncertainty in the Science Classroom. *Sci & Educ* **31**, 1239–1262 (2022). <https://doi.org/10.1007/s11191-022-00341-3>
+:::
+
+## Wissenschaftlicher Hintergrund der Aufgabenstellung
+
+- Den Anteilswert $\color{blue}\pi$, den [Wert des Parameters]{.blue} in der **(Ziel-)Population**, kennen wir nicht. Wir sind *unsicher*, welchen Wert $\color{blue}\pi$ hat.
+- Unter gewissen Bedingungen können wir berechnen, wie wahrscheinlich ein Wert $\color{green}p$ in der Stichprobe ist, wenn in der Population $\color{blue}\pi$ gelten würde.
+- Den Anteilswert $\color{green}p$, den [Wert der Statistik]{.green}, unserer **Stichprobe** kennen wir, nachdem wir Daten erhoben haben.
+- Sie aktualisieren Ihre Unsicherheit über $\color{blue}\pi$ auf Grundlage von $\color{green}p$.
+
+## Was ist was? :muscle:
+
+Was ist $\color{blue}\pi$ im Kaffeebeispiel?
+
+- [**A**:]{.green} Der Anteil der Kaffeetrinker:innen in der Population.
+- [**B**:]{.green} Der Anteil der Kaffeetrinker:innen in der Stichprobe.
+
+## Bayes'sche Erkenntnis
+
+:::::: columns
+::: {.column width="50%"}
+<br>
+
+- Wenn Sie denken wir kennen $\color{blue}\pi$, dann irren Sie sich.
+
+<br>
+
+- Sie irren sich auch, wenn Sie denken wir wissen nichts über $\color{blue}\pi$.
+
+<br>
+
+- Wir wissen, wie $\color{green}p$ sich verteilt.
+
+<br>
+
+- Wir nutzen dies, um unsere Unsicherheit über $\color{blue}\pi$ anzupassen.
+:::
+
+:::: {.column width="50%"}
+::: center
+![](img/Grafiken/Meme_Sicherheit.jpg){width="70%"}
+:::
+::::
+::::::
+
+## Vorbemerkung
+
+- Neben der konkreten Berechnung von Ergebnissen sind mathematische Formeln und {{< fa brands r-project >}}-Code ein wertvolles Hilfsmittel für eine präzise Kommunikation.
+- Mit {{< fa brands r-project >}}-Code können Sie alle Schritte Ihrer Datenanalyse transparent und reproduzierbar durchführen.
+- Mathematische Formeln ermöglichen es, komplexe Konzepte eindeutig und präzise auszudrücken.
+- Durch die Auseinandersetzung damit wachsen Sie und schärfen Ihre analytischen Fähigkeiten.
+- Schwierigkeiten und Fehler gehören einfach zum Lernen dazu.
+- Ich möchte Sie motivieren, diesen Lernprozess durchzuhalten, damit Sie neue Einsichten, Perspektiven und Erfahrungen gewinnen. :crossed_fingers:
+
+## Unsicherheit (Wiederholung)
+
+- Im Bayes'schen Sinne wird Wahrscheinlichkeit als der Grad unserer Überzeugung verstanden, als Plausibilität einer Aussage.
+- Absolute Sicherheit, dass eine Aussage $H$ stimmt, bedeutet eine Wahrscheinlichkeit von 1: $Pr(H)=1$.
+- Absolute Sicherheit, dass eine Aussage $H$ nicht stimmt, bedeutet eine Wahrscheinlichkeit von 0: $Pr(H)=0$.
+- Es gilt $0 \leq Pr(H) \leq 1$ und $Pr(H) + Pr(\text{nicht }H)=1$.
+
+::: callout-tip
+## Tipp
+
+In vielen Fällen ist es sinnvoll, absolute Sicherheiten zu vermeiden (*Cromwell's rule*).
+:::
+
+::: footnote
+$Pr(\cdot)$ vom englischen *Pr*obability.
+:::
+
+## Zwei Wahrscheinlichkeiten
+
+- **Bayes Statistik**: Um auf Basis von [Statistiken]{.green} Aussagen über die Wahrscheinlichkeiten von [Parametern]{.blue} tätigen zu können, brauchen wir zusätzlich eine *Priori*-Wahrscheinlichkeit $Pr({\color{blue}{\pi}})$:
+
+$$\overbrace{Pr({\color{blue}{\pi}} | {\color{green}{y}} )}^{\text{Epistemisch}} = Pr( {\color{blue}{\pi}} ) \frac{\overbrace{Pr({\color{green}{y}} | {\color{blue}{\pi}})}^{\text{Aleatorisch}}} {Pr({\color{green}{y}})}$$
+
+- **Epistemische Wahrscheinlichkeit**: Gibt die relative Plausibilität eines Ereignisses an. Hier die Wahrscheinlichkeit, dass im datengeneriereden Prozess ${\color{blue}{\pi}}$ gilt, wenn die Daten ${\color{green}{y}}$ vorliegen.
+- **Aleatorische Wahrscheinlichkeit**: Gibt die langfristige relative Häufigkeit eines wiederholbaren Ereignisses an. Hier die Wahrscheinlichkeit, dass die Daten ${\color{green}{y}}$ sind, wenn im datengeneriereden Prozess ${\color{blue}{\pi}}$ gilt. Dies ist die klassisch-frequentistische Sicht.
+
+## Priori, Likelihood, Posteriori
+
+$$\overbrace{Pr{(\color{blue}{\pi}} | {\color{green}{y}})}^{\text{Posteriori}} \propto \overbrace{Pr({\color{blue}{\pi}})}^{\text{Priori}} \cdot {\overbrace{Pr({\color{green}{y}} | {\color{blue}{\pi}})}^{\text{Likelihood}}}$$
+
+- **Priori-Verteilung** $Pr({\color{blue}{\pi}})$: Wahrscheinlichkeitsverteilung von $\color{blue}{\pi}$, *bevor* wir unsere Daten haben.
+- **Likelihood** $Pr({\color{green}{y}}|{\color{blue}{\pi}})$: *Mutmaßlichkeit* von $\color{green}{y}$ als Funktion von $\color{blue}{\pi}$.
+- **Posteriori-Verteilung** $Pr({\color{blue}{\pi}}|{\color{green}{y}})$: Wahrscheinlichkeitsverteilung von $\color{blue}{\pi}$ *nachdem* wir unsere Daten ${\color{green}{y}}$ haben.
+
+::: callout-note
+## Hinweis
+
+Die Überlegungen der Bayes-Statistik sind universell und nicht auf Anteilswerte beschränkt.
+:::
+
+::: footnote
+$\propto$: proportional zu.
+:::
+
+## Beta-Binomial-Modell
+
+- **Priori-Verteilung**: Grundlage Beta-Verteilung mit Parametern: $\alpha_{prior}, \beta_{prior}$: $$\pi \sim Beta(\alpha_{prior}, \beta_{prior})$$
+- **Likelihood**: Grundlage Binomialverteilung mit Parametern $n$ und $\pi$: $$Y \sim Binom(n, \pi)$$
+- **Posteriori-Verteilung**: Beta-Verteilung mit Parametern: $\alpha_{post}, \beta_{post}$: $$\pi_{|(Y=y)} \sim Beta(\alpha_{post}, \beta_{post})$$ mit $$\alpha_{post} = \alpha_{prior} + y, \quad \beta_{post} = \beta_{prior} + n - y$$
+
+## Beta-Verteilung
+
+Dichtefunktion $\pi \sim Beta(\alpha, \beta)$:
+
+$$f(\pi) \propto \pi^{\alpha-1} \cdot (1-\pi)^{\beta-1}, \text{ für } \pi \in [0,1]$$
+
+- $\alpha > 0, \beta >0$ bestimmen die Form der Verteilung.
+- Erwartungswert (*Mittelwert* der Verteilung): $E(\pi)=\frac{\alpha}{\alpha+\beta}$
+- Modus: $Modus(\pi)=\frac{\alpha-1}{\alpha+\beta-2}, \text{ für } \alpha, \beta > 1$
+- Varianz: $Var(\pi)=\frac{\alpha \cdot \beta}{(\alpha+\beta)^2 \cdot (\alpha+\beta+1)}$
+- {{< fa brands r-project >}} Befehle für Dichte-, Verteilungs- und Quantilsfunktion: `dbeta(); pbeta(); qbeta()` mit den Argumenten `shape1` $= \alpha$ und `shape2` $= \beta$
+
+## Beta-Verteilung in R
+
+```{webr-r}
+# Paket mosaic aktivieren
+library(mosaic)
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# alpha und beta spezifizieren
+a <- 1
+b <- 1
+# Dichtevektor
+dppi <- dbeta(ppi, shape1 = a, shape2 = b)
+# Visualisierung 
+gf_line(dppi ~ ppi) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), title = paste0("Beta(", a, ", " , b, ")"))
+```
+
+## Binomialverteilung (Wiederholung)
+
+Wahrscheinlichkeitsfunktion $Y \sim Binom(n, \pi)$:
+
+$$f(y) = Pr(Y=y) = \binom{n}{y} \cdot \pi^y \cdot (1-\pi)^{n-y}, \text{ für } y \in \{0,1, \ldots, n\}$$
+
+- $n \in \{0,1,2,\ldots\}$ und $\pi \in [0,1]$ bestimmt die Form der Verteilung.
+- Erwartungswert (*Mittelwert* der Verteilung): $E(Y)=n \cdot \pi$
+- Varianz: $Var(Y)=n \cdot \pi \cdot (1-\pi)$
+- Die Likelihood-Funktion ist die Wahrscheinlichkeitsfunktion als Funktion von $\pi$ bei gegebenem $y$. Diese ist maximal an der Stelle $p=\frac{y}{n}$.
+- {{< fa brands r-project >}} Befehle für Dichte-, Verteilungs- und Quantilsfunktion: `dbinom(); pbinom(); qbinom()` mit den Argumenten `size` $= n$ und `prob` $= \pi$;
+
+    klassisch-frequentistischer Test und Konfidenzintervalle über [`binom.test()`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/binom.test.html)
+
+## Biomialverteilung in R
+
+```{webr-r}
+# n und pi spezifizieren
+n <- 8
+p <- 0.5
+# Vektor für y bereitstellen
+y <- seq(from = 0, to = n, by = 1)
+# Wahrscheinlichkeitsvektor
+dy <- dbinom(y, size = n, prob = p)
+# Visualisierung 
+gf_col(dy ~ y) |>
+  gf_labs(x = "y", y = expression(f(y)), title = paste0("Binom(", n, ", " , p, ")"))
+```
+
+## Likelihood-Funktion in R
+
+```{webr-r}
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# n und y angeben
+n <- 8
+y <- 4
+# Likelihood
+like <- dbinom(y, size = n, prob = ppi)
+# Visualisierung 
+gf_line(like ~ ppi) |>
+  gf_labs(x = expression(pi), y = expression(L(pi)), title = paste0("Likelihood bei n=", n, " und y=" , y))
+```
+
+## Vorhersagen für $y$
+
+:::::: columns
+::: {.column width="50%"}
+- Epistemische Unsicherheit: Unsicherheit über den Wert von $\pi$. Modelliert über eine Beta-Verteilung. Diese wird bestimmt über die Parameter $\alpha, \beta$.
+- Aleatorische Unsicherheit: Unsicherheit über den Wert von $y$. Modelliert über eine Binomialverteilung. Diese wird bestimmt über die Parameter $n, \pi$.
+- Vorhersagen von beobachtbaren Größen können zum Modellcheck verwendet werden.
+:::
+
+:::: {.column width="50%"}
+::: center
+![](img/Grafiken/Meme_Vorhersage.jpg){width="70%"}
+:::
+::::
+::::::
+
+## (Priori) Vorhersagen für $y$ in R
+
+```{webr-r}
+# Anzahl Simulationen
+n_sim <- 10000
+# simuliere zufällige Werte für pi gemäß der Priori-Verteilung
+sim_pi_prior <- rbeta(n_sim, shape1 = a, shape2 = b)
+# simuliere Anzahl Erfolge y gemäß der Binomialverteilung mit n und (zufälligen) pi
+sim_y_prior <- rbinom(n_sim, size = n, prob = sim_pi_prior)
+# Visualisierung 
+gf_bar( ~ sim_y_prior) |>
+  gf_labs(x = "y", y = "Häufigkeit", title = paste0("Beta-Binomial bei n=", n, " und Beta(", a, ", " , b, ")"))
+```
+
+## Priori-Verteilung: $\alpha_{prior}$ und $\beta_{prior}$ :thinking:
+
+- **Priori** $Pr({\color{blue}{\pi}})$: Wahrscheinlichkeitsverteilung $\pi \sim Beta(\alpha_{prior}, \beta_{prior})$.
+- Je größer $\alpha_{prior}$ im Vergleich zu $\beta_{prior}$ ist, desto größer ist der erwartete Anteil -- und umgekehrt.
+- Je größer $\alpha_{prior}+\beta_{prior}$ desto geringer ist die Streuung (für $\alpha_{prior},\beta_{prior}>1$).
+- $\alpha_{prior}+\beta_{prior}$ ist die *effektive Stichprobengröße* (engl.: effective sample size, ESS) der Priori-Verteilung.
+- Bei $\alpha_{prior}=\beta_{prior}=1$ liegt eine Gleichverteilung für $\pi \in [0,1]$ vor. $\alpha_{prior}=\beta_{prior}=0.5$ entspricht *Jeffreys’ Prior*.
+
+::: callout-tip
+## Tipp
+
+Im Zweifel eine wenig oder nicht-informative Priori-Verteilung wählen.
+:::
+
+## Was bewirkt was? :muscle:
+
+Angenommen, Sie sind sich aufgrund vorheriger Studien sehr sicher, dass $\pi$ bei $0.9$ liegt. Welcher Parametrisierung entspricht dies am ehesten?
+
+- [**A**:]{.green} $\alpha_{prior}=1, \beta_{prior}=9$
+- [**B**:]{.green} $\alpha_{prior}=10, \beta_{prior}=90$
+- [**C**:]{.green} $\alpha_{prior}=9, \beta_{prior}=1$
+- [**D**:]{.green} $\alpha_{prior}=90, \beta_{prior}=10$
+
+## Vorraussetzungen Binomialverteilung
+
+- Die Zufallsvariable $Y$ misst die Anzahl der Erfolge bei einer festen Anzahl von $n$ Versuchen.
+- Die Versuche sind unabhängig voneinander.
+- Jeder Versuch hat die gleiche Erfolgswahrscheinlichkeit $\pi$.
+
+::: callout-important
+## Wichtig
+
+Überlegen Sie, ob diese Bedingungen für Ihre Daten erfüllt sind. Wenn nicht, kann Ihre Likelihood falsch sein. :scream:
+:::
+
+::: callout-tip
+## Tipp
+
+Mehr zur Analyse eines Anteilswertes finden Sie z. B. hier: Çetinkaya-Rundel, M. & Hardin, J. (2024). *Introduction to Modern Statistics* (2e). <https://openintro-ims.netlify.app/inference-one-prop>
+:::
+
+## Von der Priori- zur Posteriori-Verteilung: $\alpha_{post}$ und $\beta_{post}$ :thinking:
+
+- **Posteriori-Verteilung** $Pr({\color{blue}{\pi}}|{\color{green}{y}})$: Wahrscheinlichkeitsverteilung $\pi_{|(Y=y)} \sim Beta(\alpha_{post}, \beta_{post})$ mit
+
+$$\alpha_{post} = \alpha_{prior} + y$$ $$\quad \beta_{post} = \beta_{prior} + n - y.$$
+
+- Unter der Bedingung $Y \sim Binom(n, \pi)$.
+
+::: callout-tip
+## Tipp
+
+Mit Hilfe der Posteriori-Verteilung können Sie Punkt- und Intervallschätzer berechnen.
+:::
+
+## Was bewirkt was? :muscle:
+
+Was passiert, wenn Sie mehr Beobachtungen $n$ erheben?
+
+- [**A**:]{.green} Die Streuung der Posteriori-Verteilung wird kleiner.
+- [**B**:]{.green} Die Streuung der Posteriori-Verteilung wird größer.
+- [**C**:]{.green} Die Streuung der Posteriori-Verteilung ändert sich nicht.
+
+# Skript Teil II/II: <br>Wiederholung, Seminararbeit {.unnumbered}
+
+## Herzlich Willkommen :heart_eyes:
+
+Meine Wünsche für diese Veranstaltung :pray:
+
+- :video_camera: Schalten Sie Ihre Kamera ein.
+- :computer: Arbeiten Sie aktiv mit.
+- :raising_hand: Stellen Sie Fragen.
+- :muscle: <https://tweedback.de/2us3/>
+
+::: center
+{{< qrcode https://tweedback.de/2us3/quiz width=400 height=400 >}}
+:::
+
+## Wie ist die Stimmung heute?
+
+::: center
+![Quelle: [Reddit](https://i.redd.it/acefwczsilz41.jpg)](img/Icebreaker/Halloween.jpg){width="50%"}
+:::
+<https://tweedback.de/2us3/>
+
+
+# Wiederholung {.unnumbered}
+
+# Aufbau Seminararbeit {#sec-arbeit}
+
+## Tauchen Sie unter die Oberfläche :nerd_face:
+
+::: center
+![](img/Grafiken/Meme-BaBeBi.jpg){width="40%"}
+:::
+
+## Forschungsprozess: PPDAC
+
+::: center
+![](img/Grafiken/PPDAC.png){width="38%"}
+:::
+
+::: footnote
+[Wild und Pfannkuch (1999)](https://doi.org/10.1111/j.1751-5823.1999.tb00442.x)
+:::
+
+## Eine wackelige Brücke
+
+Vom **P**roblem bis zu **C**onclusion -- fallen Sie nicht gleich zu Beginn!
+
+<br>
+
+:::: center
+<iframe src="https://giphy.com/embed/zQxOLmztiIWOs" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen>
+
+</iframe>
+
+::: footnote
+[via GIPHY](https://giphy.com/gifs/animal-monkey-gibbon-zQxOLmztiIWOs)
+:::
+::::
+
+## Schritt: Problem
+
+Finden einer Fragestellung, die mit Hilfe eines Anteilswert beantwortet wird.
+
+::: callout-important
+## Wichtig
+
+> Finding the question is often more important than finding the answer.
+
+Tukey, J. W. (1980). We Need Both Exploratory and Confirmatory. *The American Statistician*, *34*(*1*), 23–25. <https://doi.org/10.1080/00031305.1980.10482706>
+:::
+
+## Schritt: Problem - Checkliste
+
+- Checkliste
+  - Die Fragstellung kann mit Daten beantwortet werden. [:ballot_box_with_check:]{.green}
+  - Es lohnt sich, die Fragestellung zu untersuchen. [:ballot_box_with_check:]{.green}
+  - Die interessierende Variable ist klar definiert und kann erhoben werden. [:ballot_box_with_check:]{.green}
+  - Die Zielpopulation ist klar definiert. [:ballot_box_with_check:]{.green}
+  - Ggf.: Die Daten dürfen genutzt werden. [:ballot_box_with_check:]{.green}
+
+## Schritt: Plan
+
+- Operationalisieren Sie Ihre Fragestellung durch (eine) Single-Choice Frage(n) mit mindestens zwei Antwortalternativen.
+- Die geplante Datenerhebung kann durch Beobachtung, (Online-)Fragebogen o. ä. erfolgen.
+
+## Schritt: Plan - Checkliste
+
+- Checkliste
+  - Die interessierende Variable sowie Zielpopulation ist klar definiert, und kann und **darf** erhoben werden. [:ballot_box_with_check:]{.green}
+  - Es ist möglich, die Daten in *ausreichender* Anzahl zu erheben ($n \geq 10$, besser $n \geq 30$). [:ballot_box_with_check:]{.green}
+  - Die Anonymität / der Datenschutz ist gewährleistet. [:ballot_box_with_check:]{.green}
+  - Es sind keine negativen Auswirkungen oder Risiken für die Teilnehmenden zu erwarten. [:ballot_box_with_check:]{.green}
+
+::: callout-tip
+## Tipp
+
+Um Variabilität in den Daten sicherzustellen, sollte der erwartete Anteil weder zu klein (z. B. < 5 %) noch zu groß (z. B. > 95 %) sein.
+:::
+
+## Schritt: Data
+
+::::: columns
+::: {.column width="50%"}
+Für den Standardfehler, d. h., die Standardabweichung der Stichprobenstatistik $p$, bei einer Binomialverteilung über verschiedene Stichproben gilt: $$se_p=\sqrt{\frac{\pi\cdot(1-\pi)}{n}}$$
+:::
+
+::: {.column width="50%"}
+```{r}
+n <- 1:1000
+se01 <- sqrt((0.1*0.9)/n)
+gf_line(se01 ~ n) |>
+  gf_labs(x="Stichprobenumfang n",
+          y ="Standardfehler",
+          title = "Zusammenhang se und n (π=0.1)",
+          caption = "Logarithmische Skalierung der x-Achse") + 
+  scale_x_log10()
+```
+:::
+:::::
+
+::: callout-tip
+## Tipp
+
+Je größer Ihr Stichprobenumfang $n$ ist, desto präziser ist Ihre Schätzung. 🎯
+
+Und desto mehr *Power* hätte ein Hypothesentest. :muscle:
+:::
+
+## Schritt: Data - Checkliste
+
+- Checkliste
+  - Die Datenerhebung (Ort, Zeit, Art) ist dokumentiert. [:ballot_box_with_check:]{.green}
+  - Die Rohdaten sind dokumentiert und gesichert. [:ballot_box_with_check:]{.green}
+  - Die Anonymität / der Datenschutz ist gewährleistet. [:ballot_box_with_check:]{.green}
+
+## Schritt: Analysis - Checkliste
+
+- Checkliste
+  - Alle Berechnungen und Abbildungen sind transparent. [:ballot_box_with_check:]{.green}
+  - Ggf.: Bei Gruppenarbeiten ist transparent, wer für welche Analyse verantwortlich ist. [:ballot_box_with_check:]{.green}
+
+## Aus Daten lernen
+
+- Das Ergebnis ist die gesamte Posteriori-Verteilung.
+- Im Beta-Binomial-Modell lautet die Posteriori-Verteilung: $\pi_{|(Y=y)} \sim Beta(\alpha_{post}, \beta_{post})$\
+    mit $\alpha_{post} = \alpha_{prior} + y; \quad \beta_{post} = \beta_{prior} + n - y$.
+
+::::: columns
+::: {.column width=100%}
+```{r}
+#| fig-asp: 0.4
+#| fig-width: 14
+#| fig-align: center
+#| out-width: 90%
+
+# Paket mosaic aktivieren
+library(mosaic)
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# alpha und beta spezifizieren
+a <- 3.5
+b <- 27.5
+# Dichtevektor
+dppi <- dbeta(ppi, shape1 = a, shape2 = b)
+
+mydata <- data.frame(
+  ppi = ppi,
+  dppi = dppi
+)
+# Visualisierung 
+gf_line(dppi ~ ppi, data = mydata) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), 
+          title = "Posteriori-Verteilung",
+          subtitle = paste0("Beispiel Beta(", a, ", " , b, ")"))
+```
+:::
+:::::
+
+## Bereichsschätzung
+
+```{r}
+kred <- 0.8
+
+zi <- qbeta(c((1-kred)/2, 1-(1-kred)/2), a, b)
+hi <- HDInterval::hdi(qbeta, kred, shape1 = a,  shape2=b)
+```
+
+::::: columns
+::: {.column width="50%"}
+- Aus der Posteriori-Verteilung können **Kredibilitätsintervalle** bestimmt werden.
+- Hier erstreckt sich das [**Höchste-Dichte-`r kred*100`%**-Kredibilitätsintervall]{.green} von $`r round(hi[1],4)`$ bis $`r round(hi[2],4)`$.
+- Das entsprechende **symmetrische** Kredibilitätsintervall reicht von $`r round(zi[1],4)`$ bis $`r round(zi[2],4)`$ (gestrichelt).
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-align: "center"
+#| out-width: "90%"
+
+# Visualisierung
+gf_line(dppi ~ ppi, data = mydata) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), 
+          title = "Posteriori-Verteilung",
+          subtitle = paste0("Beispiel Beta(", a, ", " , b, ")")) |>
+  gf_lims(x=c(0,0.5)) |>
+  gf_vline(xintercept = hi, color = "#00998A") |>
+  gf_vline(xintercept = zi, linetype = 2) +
+    geom_area(data = subset(mydata,  ppi >= hi[1] & ppi <= hi[2]), 
+                  aes(x = ppi, y = dppi), fill = "#00998A", alpha = 0.2)
+```
+:::
+:::::
+
+::: callout-tip
+## Tipp
+
+Das Höchste-Dichte-Intervall kann z. B. mit Hilfe der Funktion [`hdi()`](https://search.r-project.org/CRAN/refmans/HDInterval/html/hdi.html) aus dem Paket [`HDInterval`](https://cran.r-project.org/package=HDInterval) bestimmt werden, das symmetrische Intervall über [`qbeta()`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Beta.html).
+:::
+
+## Punktschätzung
+
+```{r}
+mw <- a/(a+b) # Mittelwert
+mod <- (a-1)/(a+b-2) # Modus
+med <- qbeta(0.5, a, b) # Median
+```
+
+::::: columns
+::: {.column width="50%"}
+Die Posteriori-Verteilung kann durch ein Lagemaß zusammengefasst werden, z. B.:
+
+- [Modus: $`r round(mod,4)`$]{.orange}
+- [Median: $`r round(med,4)`$]{.violet}
+- [Mittelwert: $`r round(mw,4)`$]{.olive}\
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-align: "center"
+#| out-width: "90%"
+
+# Visualisierung
+gf_line(dppi ~ ppi, data = mydata) |>
+  gf_labs(x = expression(pi), y = expression(f(pi)), 
+          title = "Posteriori-Verteilung",
+          subtitle = paste0("Beispiel Beta(", a, ", " , b, ")")) |>
+  gf_vline(xintercept = mw, color = "#808000", size = 1.2) |>
+  gf_vline(xintercept = med, color = "#DA70D6", size = 1.2) |>
+  gf_vline(xintercept = mod, color = "#FF8811", size = 1.2) |>
+  gf_lims(x=c(0,0.5))
+```
+:::
+:::::
+
+::: callout-note
+## Hinweis
+
+Modus, Median und Mittelwert beschreiben unterschiedliche Aspekte einer Verteilung und sind je nach Kriterium optimale Zusammenfassungen.
+:::
+
+## Schritt: Conclusion - Checkliste
+
+- Checkliste
+  - Die Ergebnisse werden klar, neutral und verständlich kommuniziert. [:ballot_box_with_check:]{.green}
+  - Die Schlussfolgerung ist durch die Datenanalyse belegt. [:ballot_box_with_check:]{.green}
+  - Die Limitationen der Arbeit sind aufgeführt. [:ballot_box_with_check:]{.green}
+
+::: callout-tip
+## Tipp
+
+Vergleiche *ATOM*: Wasserstein, R. L., Schirm, A. L., & Lazar, N. A. (2019). Moving to a World Beyond “p \< 0.05.” *The American Statistician*, *73*(sup1), 1–19. <https://doi.org/10.1080/00031305.2019.1583913>
+:::
+
+## Organisatorisches: Methodische Mindestanforderung
+
+- Priori-Verteilung: Visualisierung
+- Likelihood: Visualisierung, Punktschätzer
+- Posteriori-Verteilung: Visualisierung, Punktschätzer und Kredibilitätsintervall
+
+::: callout-important
+## Wichtig
+
+Alle Berechnungen etc. müssen transparent in `Code-Chunks` hinterlegt sein und die Ergebnisse interpretiert werden.
+:::
+
+## Organisatorisches: Gruppenarbeiten
+
+- Die Aufgabenstellung und Gliederung sind für alle Gruppengrößen gleich. Mit steigender Gruppengröße steigt der Umfang der Seminararbeit und die methodischen Mindestanforderungen in der Analyse.
+- Individuelle Verantwortung und Bewertung:
+  - zu zweit: Likelihood :student:, Posteriori :student:
+  - zu dritt: Priori :student:, Likelihood :student:, Posteriori :student:
+
+::: callout-important
+## Wichtig
+
+Die individuelle Zuordnung erfolgt anhand der methodischen Prozessschritte innerhalb der Analyse.
+:::
+
+## Organisatorisches: Methodische Mindestanforderung Gruppenarbeiten
+
+- **Zusätzliche** Mindestanforderungen:
+  - Gruppenarbeit zu zweit:
+    - Likelihood: Frequentistische Analyse, d. h., Standardfehler, Konfidenzintervall :student:
+    - Posteriori: Vorhersagesimulation und Modellcheck :student:
+  - Gruppenarbeit zu dritt:
+    - Priori: Kennzahlen, Vorhersagesimulation und Modellcheck :student:
+    - Likelihood: Frequentistische Analyse, d. h., Standardfehler, Konfidenzintervall :student:
+    - Posteriori: Vorhersagesimulation und Modellcheck :student:
+
+::: callout-important
+## Wichtig
+
+Die individuellen Verantwortlichkeiten müssen in der Arbeit gekennzeichnet werden.
+:::
+
+## Organisatorisches: Bonus :nerd_face:
+
+- Vergleich zweier Anteilswerte (siehe z. B. [`{bayesAB}`](https://cran.r-project.org/package=bayesAB))
+- Bayes-Faktoren (siehe z. B. [`{BayesFactor}`](https://cran.r-project.org/package=BayesFactor))
+- Sensitivitätsanalysen
+
+::: callout-note
+## Hinweis
+
+Die sind ergänzende **Möglichkeiten** für sehr gute Seminararbeiten, die Sie sich eigenständig mit Literatur erarbeiten können.
+:::
+
+## Ihr Projekt
+
+- Vielleicht ist es möglich, die Seminararbeit zu bestehen, ohne die konzeptionellen Hintergründe von *Schätzen*, *Bayes*, den Aufbau von `R` oder das Arbeiten mit `Quarto` zu verstehen. :cold_sweat:
+- Aber jetzt und später: **SIE** profitieren davon, wenn **SIE** begreifen, *was* da *wie* und *warum* passiert. :mortar_board: :money_with_wings:
+- Außerdem macht es mehr Spaß. :smile:
+- Nachdenken :thinking:, Nachlesen [:books:]((https://www.bayesrulesbook.com/)) und Nachfragen :raising_hand: können dabei helfen. :innocent:
+
+![](img/Grafiken/Türen.jpg){height="400px" fig-align="center"}
+
+# Anhang {#sec-anhang}
+
+## Shiny App
+
+:::: center
+<iframe src="https://fomshinyapps.shinyapps.io/BaBeBi/" title width="100%" height="800" style="border:none;">
+
+</iframe>
+
+::: footnote
+<https://fomshinyapps.shinyapps.io/BaBeBi/>
+:::
+::::
+
+## Weitere Literatur (Auswahl)
+
+- Wagenmakers E.-J., & Matzke, D. (2024). *Bayesian inference from the ground up: The theory of common sense*. <https://www.bayesianspectacles.org/free-course-book/>, insbesondere Kapitel 12.
+- Albert, J., & Hu, J. (2019). *Probability and Bayesian modeling*. Chapman and Hall/CRC. <https://bayesball.github.io/BOOK/probability-a-measurement-of-uncertainty.html>, insbesondere Kapitel 7.
+- Dwney, A.B. (2022). *Think Bayes* (2e). <https://allendowney.github.io/ThinkBayes2/>, insbesondere Kapitel 4.
+
+::: center
+:pray: Bitte nennen Sie mir weitere Quellen, die Sie hilfreich finden. :pray:
+:::
+
+::: callout-warning
+## Warnung
+
+Bei der Problemstellung dieser Seminararbeit sind Sprachmodelle oft fehleranfällig.
+:::
+
+## Backup: Diskrete Zufallsvariable $X$
+
+- **Verteilungsfunktion**: $$F(x) = Pr(X \leq x) = \sum_{u \leq x} f(u)$$ Wahrscheinlichkeit für einen Wert kleiner oder gleich $x$.
+- **Wahrscheinlichkeitsfunktion**: $$f(x)=Pr(X=x)$$ Wahrscheinlichkeit für einen Wert gleich $x$.
+- **Quantilsfunktion**: $$Q(p)=\inf\{x \in \mathbb{R}: p\geq F(x)\}$$ Kleinster Wert für $x$, so dass die Wahrscheinlichkeit für einen Wert kleiner oder gleich $x$ mindestens $p$ beträgt.
+
+## Backup: Stetige Zufallsvariable $X$
+
+- **Verteilungsfunktion**: $$F(x) = Pr(X \leq x) = \int_{-\infty}^x f(u)du$$ Wahrscheinlichkeit für einen Wert kleiner oder gleich $x$.
+- **Dichtefunktion**: $$f(x)=F'(x), \text{ wenn } F \text{ differenzierbar ist}$$
+- **Quantilsfunktion**: $$Q(p)=\inf\{x \in \mathbb{R}: p\geq F(x)\}$$ Kleinster Wert für $x$, so dass die Wahrscheinlichkeit für einen Wert kleiner oder gleich $x$ mindestens $p$ beträgt.
+
+## Backup: Konjugierte Priori-Verteilung
+
+- Für binomialverteilte Stichprobendaten ist die Beta-Verteilung die *konjugierte* Priori-Verteilung, d. h., auch die Posteriori-Verteilung ist dann eine Beta-Verteilung. Dies ermöglicht eine einfache Berechnung der Posteriori-Verteilung.
+- Die Wahl der Priori-Verteilung und der angestrebten Eigenschaften, ob diese z. B. informativ oder nicht-informativ sein soll, ist eine **begründete** Entscheidung innerhalb der wissenschaftlichen Datenauswertung.
+
+::: callout-important
+## Wichtig
+
+Die Priori-Verteilung legen Sie im Schritt **P**lan fest, **bevor** Sie eigene Daten erhoben haben.
+:::
+
+## Didaktischer Hintergrund :woman_teacher:
+
+Für den didaktischen Hintergrund siehe z. B.:
+
+- Albert, J. (2000). Using a Sample Survey Project to Assess the Teaching of Statistical Inference. *Journal of Statistics Education*, *8*(1). <https://doi.org/10.1080/10691898.2000.12131283>
+- Dogucu, M., Kazak, S., & Rosenberg, J. M. (2024). The Design and Implementation of a Bayesian Data Analysis Lesson for Pre-Service Mathematics and Science Teachers. *Journal of Statistics and Data Science Education*, *33*(2), 177–188. <https://doi.org/10.1080/26939169.2024.2362148>
+- Rosenberg, J.M., Kubsch, M., Wagenmakers, E-J., Dogucu, M. (2022). Making Sense of Uncertainty in the Science Classroom. *Sci & Educ*, *31*, 1239–1262. <https://doi.org/10.1007/s11191-022-00341-3>
+- Wang, F. (2021). Confidence Intervals of COVID-19 Vaccine Efficacy Rates. *Numeracy*, *14*(2). <https://doi.org/10.5038/1936-4660.14.2.1390>

@@ -1,0 +1,117 @@
+```{r}
+#| include: false
+library(mosaic)
+
+set.seed(1896)
+theme.fom <- theme_classic(22*1.04)
+theme.fom <- theme.fom
+theme_set(
+  theme.fom  
+)
+```
+
+## Übungslösung: Münzwurf :muscle:
+
+Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$: Welche Anzahl Kopf $y$ ist wahrscheinlicher?
+
+-   [**A**]{.green}: $4\times$ Kopf.
+
+-   [**B**]{.green}: $8\times$ Kopf.
+
+-   [**C**]{.green}: $4\times$ Kopf und $8\times$ Kopf sind gleich wahrscheinlich.
+
+-   [**D**]{.green}: Keine Aussage möglich.
+
+Die richtige Lösung ist **A: 4× Kopf.**
+
+## Übungslösung: Wahrscheinlichkeit :muscle:
+
+Um was für eine Wahrscheinlichkeit handelt es sich bei der Anzahl Kopf $y=4$ bzw. $y=8$ beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$?
+
+-   [**A**]{.green}: Aleatorische Wahrscheinlichkeit.
+
+-   [**B**]{.green}: Epistemische Wahrscheinlichkeit.
+
+-   [**C**]{.green}: Sowohl aleatorische als auch epistemische Wahrscheinlichkeit.
+
+-   [**D**]{.green}: Weder aleatorische noch epistemische Wahrscheinlichkeit.
+
+Die richtige Antwort ist **A: Aleatorische Wahrscheinlichkeit.**
+
+## Übungslösung: Münzwurf -- Forts. :muscle:
+
+Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$. Welche Anzahl Kopf $y$ ist wahrscheinlicher?
+
+-   [**A**]{.green}: $4\times$ Kopf.
+
+-   [**B**]{.green}: $8\times$ Kopf.
+
+-   [**C**]{.green}: $4\times$ Kopf und $8\times$ Kopf sind gleich wahrscheinlich.
+
+-   [**D**]{.green}: Keine Aussage möglich.
+
+Die richtige Lösung ist **A: 4× Kopf.**
+
+
+## Übungslösung: Eine Übersicht (Wiederholung) :muscle:
+
+Auf welcher Ebene befindet sich unser konkretes Ergebnis $p=\frac{y}{n}$?
+
+-   [**A**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmpdells **P** (links oben).
+
+-   [**B**]{.green}: Auf der Ebene der Daten **D** (links unten).
+
+-   [**C**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmodells **P'** (rechts oben).
+
+-   [**D**]{.green}: Auf der Ebene der Daten **D'** (rechts unten).
+
+
+Die richtige Lösung ist **B: Auf der Ebene der Daten D (links unten).**
+
+
+## Übungslösung: Simulation Stichprobenergebnisse :muscle:
+
+
+Variiert bei festem $\pi$ der Punktschätzer $\hat{\pi}_{MLE}$?
+
+-   [**Ja**]{.green}
+
+-   [**Nein**]{.green}
+
+Die richtige Lösung ist **Ja.**
+
+## Übungslösung: Was ist was? :muscle:
+
+Was ist $\color{blue}\pi$ im Kaffeebeispiel?
+
+-   **A**: Der Anteil der Kaffeetrinker:innen in der Population.
+
+-   **B**: Der Anteil der Kaffeetrinker:innen in der Stichprobe.
+
+Die richtige Lösung ist **A: Der Anteil der Kaffeetrinker:innen in der Population**.
+
+## Übungslösung: Was bewirkt was? :muscle:
+
+Angenommen, Sie sind sich aufgrund vorheriger Studien sehr sicher, dass $\pi$ bei $0.9$ liegt. Welcher Parametrisierung entspricht dies am ehesten?
+
+-   **A**: $\alpha_{prior}=1, \beta_{prior}=9$
+
+-   **B**: $\alpha_{prior}=10, \beta_{prior}=90$
+
+-   **C**: $\alpha_{prior}=9, \beta_{prior}=1$
+
+-   **D**: $\alpha_{prior}=90, \beta_{prior}=10$
+
+Die richtige Lösung ist **D: $\alpha_{prior}=90, \beta_{prior}=10$**
+
+## Übungslösung: Was bewirkt was? :muscle:
+
+Was passiert, wenn Sie mehr Beobachtungen $n$ erheben?
+
+-   **A**: Die Streuung der Posteriori-Verteilung wird kleiner.
+
+-   **B**: Die Streuung der Posteriori-Verteilung wird größer.
+
+-   **C**: Die Streuung der Posteriori-Verteilung ändert sich nicht.
+
+Die richtige Lösung ist **A: Die Streuung der Posteriori-Verteilung wird kleiner.**

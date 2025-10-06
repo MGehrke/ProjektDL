@@ -1,0 +1,35 @@
+title: "Projekt: Data Literacy"
+subtitle: "WiSe 25/26"
+institute: "FOM Frankfurt"
+author: "Prof. Dr. Matthias Gehrke"
+from: markdown+emoji
+lang: de-DE
+slide-number: c
+number-sections: true
+number-depth: 1
+format: 
+  revealjs:
+    footer: "Projekt: Data Literacy | Matthias Gehrke"
+    chalkboard: true
+    html-math-method: katex
+    main-font: Arial
+    width: 1920
+    height: 1200 #    height: 1200 oder 1080 
+    margin: 0
+    history: true
+    center: false
+    slide-number: true
+    toc: false
+    toc-depth: 1
+    link-external-newwindow: true 
+    theme:
+      - colors.scss
+      - fontsstyles.scss
+      - fom.scss # FOM Layout
+      #- fom-dls.scss # DLS Layout
+engine: knitr
+webr: 
+  show-startup-message: false    # Disable displaying status of webR initialization
+  packages: ['mosaic']
+filters:
+  - webr
