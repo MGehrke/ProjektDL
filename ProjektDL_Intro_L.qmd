@@ -24,6 +24,8 @@ Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$: Welche Anzahl Kopf 
 
 Die richtige Lösung ist **A: 4× Kopf.**
 
+Für 8-mal Kopf gibt es nur einen Pfad, die Wahrscheinlichkeit beträgt $0.5^8 = `r 0.5^8`$. Für 4-mal Kopf gibt es viele Pfade, K-K-K-K-Z-Z-Z-Z, K-K-K-Z-K-Z-Z-Z, ..., die Wahrscheinlichkeit ist also deutlich höher.
+
 ## Übungslösung: Wahrscheinlichkeit :muscle:
 
 Um was für eine Wahrscheinlichkeit handelt es sich bei der Anzahl Kopf $y=4$ bzw. $y=8$ beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$?
@@ -52,12 +54,29 @@ Beim $n=8$-maligen Werfen einer fairen Münze mit $\pi=0.5$. Welche Anzahl Kopf 
 
 Die richtige Lösung ist **A: 4× Kopf.**
 
+## Übungslösung: Zahlenfolge :muscle:
+
+`seq(from, to, by)` erzeugt einen Vektor einer Zahlenfolge von `from` bis `to` mit einer Schrittweite von `by`.
+
+Erzeugen Sie eine Zahlenfolge von $0$ bis $1$ mit einer Schrittweite von $0.01$. Benennen Sie das Ergebnis `vektor_pi`.
+
+```{r}
+#| echo: true
+vektor_pi <- seq(0, 1, 0.01)
+# oder mit Angabe der Parameter
+vektor_pi <- seq(from = 0, to = 1, by = 0.01)
+# Ausgabe der ersten und letzten Werte
+head(vektor_pi)
+tail(vektor_pi)
+```
+
+
 
 ## Übungslösung: Eine Übersicht (Wiederholung) :muscle:
 
 Auf welcher Ebene befindet sich unser konkretes Ergebnis $p=\frac{y}{n}$?
 
--   [**A**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmpdells **P** (links oben).
+-   [**A**]{.green}: Auf der Ebene des Wahrscheinlichkeitsmodells **P** (links oben).
 
 -   [**B**]{.green}: Auf der Ebene der Daten **D** (links unten).
 
@@ -68,9 +87,10 @@ Auf welcher Ebene befindet sich unser konkretes Ergebnis $p=\frac{y}{n}$?
 
 Die richtige Lösung ist **B: Auf der Ebene der Daten D (links unten).**
 
+Es gibt ein Modell, $\pi=0.5$, dazu haben wir Daten erhoben.
+
 
 ## Übungslösung: Simulation Stichprobenergebnisse :muscle:
-
 
 Variiert bei festem $\pi$ der Punktschätzer $\hat{\pi}_{MLE}$?
 
@@ -79,6 +99,7 @@ Variiert bei festem $\pi$ der Punktschätzer $\hat{\pi}_{MLE}$?
 -   [**Nein**]{.green}
 
 Die richtige Lösung ist **Ja.**
+
 
 ## Übungslösung: Was ist was? :muscle:
 
@@ -89,6 +110,7 @@ Was ist $\color{blue}\pi$ im Kaffeebeispiel?
 -   **B**: Der Anteil der Kaffeetrinker:innen in der Stichprobe.
 
 Die richtige Lösung ist **A: Der Anteil der Kaffeetrinker:innen in der Population**.
+
 
 ## Übungslösung: Was bewirkt was? :muscle:
 
@@ -104,6 +126,9 @@ Angenommen, Sie sind sich aufgrund vorheriger Studien sehr sicher, dass $\pi$ be
 
 Die richtige Lösung ist **D: $\alpha_{prior}=90, \beta_{prior}=10$**
 
+$\alpha$ muss größer $\beta$ sein, damit der Schwerpunkt der Verteilung über 0.5 liegt. Je größer $\alpha$ und $\beta$ sind, desto kleiner ist die Varianz (Streuung), damit sind wir uns sicherer.
+
+
 ## Übungslösung: Was bewirkt was? :muscle:
 
 Was passiert, wenn Sie mehr Beobachtungen $n$ erheben?
@@ -115,3 +140,48 @@ Was passiert, wenn Sie mehr Beobachtungen $n$ erheben?
 -   **C**: Die Streuung der Posteriori-Verteilung ändert sich nicht.
 
 Die richtige Lösung ist **A: Die Streuung der Posteriori-Verteilung wird kleiner.**
+
+Da $n$ (und $y$) in die Berechnung von $\alpha$ und $\beta$ einfließen, nimmt die Varianz der Posteriori-Verteilung bei größerem $n$ ab.
+
+## Übungslösung: Priori, Likelihood, Posteriori :muscle:
+
+Plotten Sie für das Kaffeebeispiel die Prior- und Posterior-Verteilung, sowie die Likelihood in einem Grafen, Farben orange, grün, lila.
+
+::::: columns
+::: {.column width=50%}
+```{r}
+#| echo: true
+# Vektor für pi unter dem Namen ppi bereitstellen
+ppi <- seq(from = 0, to = 1, by = 1/1000)
+# alphaprior und betaprior festlegen
+# Hinweis: Ergebnisse in Ihrem Kurs sind anders
+aprior <- 5.6
+bprior <- 4.3
+# Dichtevektor für die Prior-Verteilung erzeugen
+dprior <- dbeta(ppi, shape1 = aprior, shape2 = bprior)
+# n und y der Likelihood angeben
+# Hinweis: Ergebnisse in Ihrem Kurs sind anders
+n <- 19
+y <- 8
+# Likelihood erzeugen
+like <- dbinom(y, size = n, prob = ppi)
+# Likelihood skalieren auf Flächeninhalt eins
+like <- like/sum(like)*1000
+# alphapost und betapost festlegen
+apost <- aprior + y
+bpost <- bprior + n - y
+# Dichtevektor für die Posterior-Verteilung erzeugen
+dpost <- dbeta(ppi, shape1 = apost, shape2 = bpost)
+
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: true
+# alle drei in einem Grafen ausgeben
+gf_line(dprior ~ ppi, color = "orange") |> 
+  gf_line(like ~ ppi, color = "violet") |> 
+  gf_line(dpost ~ ppi, color = "green")
+```
+:::
+:::::

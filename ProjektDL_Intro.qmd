@@ -514,7 +514,7 @@ b
 
 ## Zahlenfolge :muscle:
 
-`seq(from, to, by)` erzeugt einen Vektor einer Zahenfolge von `from` bis `to` mit einer Schrittweite von `by`.
+`seq(from, to, by)` erzeugt einen Vektor einer Zahlenfolge von `from` bis `to` mit einer Schrittweite von `by`.
 
 Erzeugen Sie eine Zahlenfolge von $0$ bis $1$ mit einer Schrittweite von $0.01$. Benennen Sie das Ergebnis `vektor_pi`.
 
@@ -1016,7 +1016,7 @@ gf_line(dppi ~ ppi) |>
   gf_labs(x = expression(pi), y = expression(f(pi)), title = paste0("Beta(", a, ", " , b, ")"))
 ```
 
-## Priori, Likelihood, Posteriori
+## Übung: Priori, Likelihood, Posteriori :muscle:
 
 Plotten Sie für das Kaffeebeispiel die Prior- und Posterior-Verteilung, sowie die Likelihood in einem Grafen, Farben orange, grün, lila.
 
@@ -1032,7 +1032,7 @@ ppi <- seq(from = 0, to = 1, by = 1/1000)
 # alphaprior und betaprior festlegen
 aprior <- 1
 bprior <- 1
-# Dichtevektor für die Prior-Verteilung erzeugeh
+# Dichtevektor für die Prior-Verteilung erzeugen
 dprior <- dbeta(ppi, shape1 = a, shape2 = b)
 # n und y der Likelihood angeben
 n <- 8
@@ -1042,7 +1042,7 @@ like <- dbinom(y, size = n, prob = ppi)
 # alphapost und betapost festlegen
 apost <- 1
 bpost <- 1
-# Dichtevektor für die Posterior-Verteilung erzeugeh
+# Dichtevektor für die Posterior-Verteilung erzeugen
 dpost <- dbeta(ppi, shape1 = a, shape2 = b)
 
 ```
